@@ -1,0 +1,8 @@
+ipykernel
+jupyter
+notebook
+nb-mypy
+numpy
+pygame
+python-dotenv
+typing-extensions

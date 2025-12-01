@@ -1,25 +1,4 @@
-# 파이썬 가상환경
-
-## 가상환경
-
-### 1. 가상환경 생성
-```bash
-python -m venv venv
-```
-
-### 2. 가상환경 활성화
-
-```bash
-#  Windows
-.\venv\Scripts\Activate
-
-# macOS/Linux
-source venv/bin/activate
-
-# 가상환경 비활성화
-deactivate
-```
-
+# 파이썬 코딩 맛보기 (ChatGPT 활용)
 
 ## 테트리스
 
