@@ -97,3 +97,6 @@ Thumbs.db
 .dmypy.json
 .pyre/
 .pylint.d/
+
+# SQLite database files
+*.db
