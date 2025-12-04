@@ -6,3 +6,6 @@ numpy
 pygame
 python-dotenv
 typing-extensions
+fastapi
+uvicorn
+pydantic
