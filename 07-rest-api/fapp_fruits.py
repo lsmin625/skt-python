@@ -29,5 +29,5 @@ def get_fruit(fruit_id: int) -> FruitResponse | dict[str, str]:
 @app.post("/fruits")
 def add_fruit(fruit: FruitDict) -> FruitResponse:
     """과일 추가"""
-    fruits.append(fruit['name'])
-    return FruitResponse(id=len(fruits) - 1, name=fruit['name'])
+    fruits.append(fruit.name)
+    return FruitResponse(id=len(fruits) - 1, name=fruit.name)

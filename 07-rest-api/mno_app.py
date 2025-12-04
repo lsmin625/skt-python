@@ -21,13 +21,13 @@ class PlanCreate(PlanBase):
     pass
 
 
-class PlanUpdate(BaseModel, total=False):
-    name: Optional[str]
-    monthly_fee: Optional[int]
-    data_gb: Optional[float]
-    voice_minutes: Optional[int]
-    sms_count: Optional[int]
-    is_unlimited_data: Optional[bool]
+class PlanUpdate(BaseModel):
+    name: Optional[str] = None
+    monthly_fee: Optional[int] = None
+    data_gb: Optional[float] = None
+    voice_minutes: Optional[int] = None
+    sms_count: Optional[int] = None
+    is_unlimited_data: Optional[bool] = None
 
 
 class Plan(PlanBase):
@@ -35,7 +35,7 @@ class Plan(PlanBase):
     created_at: Optional[str]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class BenefitBase(BaseModel):
@@ -53,7 +53,7 @@ class Benefit(BenefitBase):
     plan_id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class PlanWithBenefits(Plan):
@@ -74,12 +74,12 @@ def create_plan_api(plan: PlanCreate):
     """새 요금제 생성"""
     try:
         plan_id = mno_service.create_plan(
-            name=plan['name'],
-            monthly_fee=plan['monthly_fee'],
-            data_gb=plan['data_gb'],
-            voice_minutes=plan['voice_minutes'],
-            sms_count=plan['sms_count'],
-            is_unlimited_data=plan.get('is_unlimited_data', False),
+            name=plan.name,
+            monthly_fee=plan.monthly_fee,
+            data_gb=plan.data_gb,
+            voice_minutes=plan.voice_minutes,
+            sms_count=plan.sms_count,
+            is_unlimited_data=plan.is_unlimited_data,
         )
         result = mno_service.get_plan(plan_id)
         if not result:
@@ -113,8 +113,8 @@ def get_plan_api(plan_id: int):
 @app.patch("/plans/{plan_id}", response_model=Plan)
 def update_plan_api(plan_id: int, plan_update: PlanUpdate):
     """요금제 정보 부분 업데이트 (현재는 monthly_fee만 지원)"""
-    if 'monthly_fee' in plan_update and plan_update['monthly_fee'] is not None:
-        success = mno_service.update_plan_fee(plan_id, plan_update['monthly_fee'])
+    if plan_update.monthly_fee is not None:
+        success = mno_service.update_plan_fee(plan_id, plan_update.monthly_fee)
         if not success:
             raise HTTPException(status_code=404, detail="Plan not found")
     
@@ -148,18 +148,18 @@ def create_benefit_api(plan_id: int, benefit: BenefitCreate):
     
     benefit_id = mno_service.create_plan_benefit(
         plan_id=plan_id,
-        benefit_name=benefit['benefit_name'],
-        benefit_desc=benefit.get('benefit_desc'),
-        priority=benefit.get('priority'),
+        benefit_name=benefit.benefit_name,
+        benefit_desc=benefit.benefit_desc,
+        priority=benefit.priority,
     )
     
     # benefit_id를 사용하여 생성된 혜택 조회 (간단하게 입력값 반환)
     return Benefit(
         benefit_id=benefit_id,
         plan_id=plan_id,
-        benefit_name=benefit['benefit_name'],
-        benefit_desc=benefit.get('benefit_desc'),
-        priority=benefit.get('priority')
+        benefit_name=benefit.benefit_name,
+        benefit_desc=benefit.benefit_desc,
+        priority=benefit.priority
     )
 
 
