@@ -11,8 +11,14 @@ python -m venv venv
 ### 2. 가상환경 활성화
 
 ```bash
-#  Windows
-.\venv\Scripts\Activate
+#  Windows - Power Shell
+.\venv\Scripts\Activate.ps1
+
+#  Windows - command
+venv\Scripts\activate.bat
+
+# Windows - Git Bash
+source venv/Scripts/activate
 
 # macOS/Linux
 source venv/bin/activate
@@ -28,6 +34,7 @@ pip install -r requirements.txt
 ```
 
 ### 4. 가상환경을 주피터 노트북 커널로 등록 (선택)
+
 ```bash
 python -m ipykernel install --user --name skt-venv --display-name "Python(SKT venv)"
 ```
